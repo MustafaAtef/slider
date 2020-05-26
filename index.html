@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Slider</title>
+        <!-- <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap"
+        /> -->
+        <link rel="stylesheet" href="./css/app.css" />
+        <script src="./js/app.js" defer></script>
+    </head>
+    <body>
+        <div class="slider">
+            <ul class="slider__items">
+                <li class="slider__item slider__item--shown" data-order="0">
+                    <div class="overlay"></div>
+                    <div class="slider__item--content">
+                        <h1 class="item__content--heading">
+                            First Heading
+                        </h1>
+                        <p class="item__content--paragraph">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Numquam, quisquam dolore quaerat accusantium
+                            quibusdam nemo! Sed vel soluta quibusdam totam nulla
+                            accusamus.
+                        </p>
+                    </div>
+                </li>
+                <li class="slider__item slider__item--left" data-order="1">
+                    <div class="overlay"></div>
+                    <div class="slider__item--content">
+                        <h1 class="item__content--heading">
+                            Second Heading
+                        </h1>
+                        <p class="item__content--paragraph">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Numquam, quisquam dolore quaerat accusantium
+                            quibusdam nemo! Sed vel soluta quibusdam totam nulla
+                            accusamus.
+                        </p>
+                    </div>
+                </li>
+                <li class="slider__item slider__item--left" data-order="2">
+                    <div class="overlay"></div>
+                    <div class="slider__item--content">
+                        <h1 class="item__content--heading">
+                            Third Heading
+                        </h1>
+                        <p class="item__content--paragraph">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Numquam, quisquam dolore quaerat accusantium
+                            quibusdam nemo! Sed vel soluta quibusdam totam nulla
+                            accusamus.
+                        </p>
+                    </div>
+                </li>
+                <li class="slider__item slider__item--left" data-order="3">
+                    <div class="overlay"></div>
+                    <div class="slider__item--content">
+                        <h1 class="item__content--heading">
+                            Fourth Heading
+                        </h1>
+                        <p class="item__content--paragraph">
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Numquam, quisquam dolore quaerat accusantium
+                            quibusdam nemo! Sed vel soluta quibusdam totam nulla
+                            accusamus.
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            <div class="slider-controls">
+                <div class="slider__controls--bullets">
+                    <ul class="bullets__items">
+                        <li class="bullets__item active" data-slider="0"></li>
+                        <li class="bullets__item" data-slider="1"></li>
+                        <li class="bullets__item" data-slider="2"></li>
+                        <li class="bullets__item" data-slider="3"></li>
+                    </ul>
+                </div>
+                <div class="slider__controls--arrows">
+                    <div class="arrow-right" data-goTo='1'>
+                        <img src="./images/arrow_right.svg" alt="" />
+                    </div>
+                    <div class="arrow-left" data-goTo="-1">
+                        <img src="./images/arrow_left.svg" alt="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
