@@ -47,15 +47,28 @@ class Slider {
                                 "slider__item--left"
                             );
                     }
-                    this.arrowRight.addEventListener(
-                        "click",
-                        this.sliderArrowRightHandler.bind(this)
-                    );
-                    this.arrowLeft.addEventListener(
-                        "click",
-                        this.sliderArrowLeftHandler.bind(this)
-                    );
+                } else if (this.slidingWay == "fade") {
+                    for (let i = 0; i < this.sliderItemsLength; i++) {
+                        if (i == 0) {
+                            this.sliderTracker[i].classList.add(
+                                "slider__item--fade",
+                                "slider__fade--in"
+                            );
+                        } else {
+                            this.sliderTracker[i].classList.add(
+                                "slider__item--fade"
+                            );
+                        }
+                    }
                 }
+                this.arrowRight.addEventListener(
+                    "click",
+                    this.sliderArrowRightHandler.bind(this)
+                );
+                this.arrowLeft.addEventListener(
+                    "click",
+                    this.sliderArrowLeftHandler.bind(this)
+                );
             }
             if (this.controls.indexOf("bullets") !== -1) {
                 let bulletsContainer = this.createBulletElement();
@@ -72,11 +85,27 @@ class Slider {
                                 "slider__item--left"
                             );
                     }
+                } else if (this.slidingWay == "fade") {
+                    for (let i = 0; i < this.sliderItemsLength; i++) {
+                        if (i == 0)
+                            this.sliderTracker[i].classList.add(
+                                "slider__item--fade",
+                                "slider__fade--in"
+                            );
+                        else
+                            this.sliderTracker[i].classList.add(
+                                "slider__item--fade"
+                            );
+                    }
                     bulletsContainer.bulletsList.addEventListener(
                         "click",
                         this.bulletsHandler.bind(this)
                     );
                 }
+                bulletsContainer.bulletsList.addEventListener(
+                    "click",
+                    this.bulletsHandler.bind(this)
+                );
             }
 
             this.sliderContainer.appendChild(controlElem);
@@ -136,12 +165,20 @@ class Slider {
             // disable
             return;
         }
-        // add class right to goTo slide - 1
-        this.sliderTracker[goTo - 1].classList.remove("slider__item--shown");
-        this.sliderTracker[goTo - 1].classList.add("slider__item--right");
-        // add class shown to goTo
-        this.sliderTracker[goTo].classList.remove("slider__item--left");
-        this.sliderTracker[goTo].classList.add("slider__item--shown");
+        if (this.slidingWay == "slider") {
+            // add class right to goTo slide - 1
+            this.sliderTracker[goTo - 1].classList.remove(
+                "slider__item--shown"
+            );
+            this.sliderTracker[goTo - 1].classList.add("slider__item--right");
+            // add class shown to goTo
+            this.sliderTracker[goTo].classList.remove("slider__item--left");
+            this.sliderTracker[goTo].classList.add("slider__item--shown");
+        } else if (this.slidingWay == "fade") {
+            this.sliderTracker[goTo - 1].classList.remove("slider__fade--in");
+            this.sliderTracker[goTo].classList.add("slider__fade--in");
+        }
+
         // active the correct bullet
         if (this.controls.indexOf("bullets") !== -1)
             this.bulletsActivation(goTo);
@@ -161,12 +198,19 @@ class Slider {
             // disable
             return;
         }
-        // add class right to goTo slide - 1
-        this.sliderTracker[goTo + 1].classList.remove("slider__item--shown");
-        this.sliderTracker[goTo + 1].classList.add("slider__item--left");
-        // add class shown to goTo
-        this.sliderTracker[goTo].classList.remove("slider__item--right");
-        this.sliderTracker[goTo].classList.add("slider__item--shown");
+        if (this.slidingWay == "slider") {
+            // add class right to goTo slide - 1
+            this.sliderTracker[goTo + 1].classList.remove(
+                "slider__item--shown"
+            );
+            this.sliderTracker[goTo + 1].classList.add("slider__item--left");
+            // add class shown to goTo
+            this.sliderTracker[goTo].classList.remove("slider__item--right");
+            this.sliderTracker[goTo].classList.add("slider__item--shown");
+        } else if (this.slidingWay == "fade") {
+            this.sliderTracker[goTo + 1].classList.remove("slider__fade--in");
+            this.sliderTracker[goTo].classList.add("slider__fade--in");
+        }
         // active the correct bullet
         if (this.controls.indexOf("bullets") !== -1)
             this.bulletsActivation(goTo);
@@ -198,9 +242,6 @@ class Slider {
         if (e.target.closest("li")) {
             let toGo = +e.target.closest("li").dataset["slider"];
             let activeSlide = this.getActivatedBulletSlider();
-
-            console.log(`active: ${activeSlide}`, `To Go: ${toGo}`);
-
             if (activeSlide > toGo) {
                 this.goBack(activeSlide, toGo);
             }
@@ -212,37 +253,65 @@ class Slider {
     }
 
     goBack(activeSlide, toGo) {
-        for (let i = activeSlide; i > toGo; i--) {
-            console.log(this.sliderTracker[i], i, i - 1);
-            this.sliderTracker[i].classList.remove("slider__item--shown");
-            this.sliderTracker[i].classList.add("slider__item--left");
-            this.sliderTracker[i - 1].classList.remove("slider__item--right");
-            this.sliderTracker[i - 1].classList.add("slider__item--shown");
+        if (this.slidingWay == "slider") {
+            for (let i = activeSlide; i > toGo; i--) {
+                this.sliderTracker[i].classList.remove("slider__item--shown");
+                this.sliderTracker[i].classList.add("slider__item--left");
+                this.sliderTracker[i - 1].classList.remove(
+                    "slider__item--right"
+                );
+                this.sliderTracker[i - 1].classList.add("slider__item--shown");
 
-            this.bulletsActivation(i - 1);
+                this.bulletsActivation(i - 1);
 
+                if (this.controls.indexOf("arrows") !== -1) {
+                    this.arrowRight.dataset["goto"] = i;
+                    this.arrowLeft.dataset["goto"] = i - 2;
+                }
+            }
+        } else if (this.slidingWay == "fade") {
+            this.sliderTracker[activeSlide].classList.remove(
+                "slider__fade--in"
+            );
+            this.sliderTracker[toGo].classList.add("slider__fade--in");
+            this.bulletsActivation(toGo);
             if (this.controls.indexOf("arrows") !== -1) {
-                this.arrowRight.dataset["goto"] = i;
-                this.arrowLeft.dataset["goto"] = i - 2;
+                this.arrowRight.dataset["goto"] = toGo + 1;
+                this.arrowLeft.dataset["goto"] = toGo - 1;
             }
         }
+
         this.checkIfDisabled();
     }
 
     goForward(activeSlide, toGo) {
-        for (let i = activeSlide; i < toGo; i++) {
-            console.log(this.sliderTracker[i], i, i - 1);
-            this.sliderTracker[i].classList.remove("slider__item--shown");
-            this.sliderTracker[i].classList.add("slider__item--right");
-            this.sliderTracker[i + 1].classList.remove("slider__item--left");
-            this.sliderTracker[i + 1].classList.add("slider__item--shown");
+        if (this.slidingWay == "slider") {
+            for (let i = activeSlide; i < toGo; i++) {
+                this.sliderTracker[i].classList.remove("slider__item--shown");
+                this.sliderTracker[i].classList.add("slider__item--right");
+                this.sliderTracker[i + 1].classList.remove(
+                    "slider__item--left"
+                );
+                this.sliderTracker[i + 1].classList.add("slider__item--shown");
 
-            this.bulletsActivation(i + 1);
+                this.bulletsActivation(i + 1);
+                if (this.controls.indexOf("arrows") !== -1) {
+                    this.arrowRight.dataset["goto"] = i + 2;
+                    this.arrowLeft.dataset["goto"] = i;
+                }
+            }
+        } else if (this.slidingWay == "fade") {
+            this.sliderTracker[activeSlide].classList.remove(
+                "slider__fade--in"
+            );
+            this.sliderTracker[toGo].classList.add("slider__fade--in");
+            this.bulletsActivation(toGo);
             if (this.controls.indexOf("arrows") !== -1) {
-                this.arrowRight.dataset["goto"] = i + 2;
-                this.arrowLeft.dataset["goto"] = i;
+                this.arrowRight.dataset["goto"] = toGo + 1;
+                this.arrowLeft.dataset["goto"] = toGo - 1;
             }
         }
+
         this.checkIfDisabled();
     }
 
@@ -257,5 +326,5 @@ class Slider {
 
 const slider = new Slider(".slider", {
     controls: ["arrows", "bullets"],
-    slidingWay: "slider",
+    slidingWay: "fade",
 });

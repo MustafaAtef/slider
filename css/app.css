@@ -28,16 +28,16 @@ ul {
     overflow: hidden;
 }
 
-.slider__item[data-order="0"] {
+.slider__item:first-of-type {
     background-image: url("../images/image-1.jpg");
 }
-.slider__item[data-order="1"] {
+.slider__item:nth-of-type(2) {
     background-image: url("../images/image-2.jpg");
 }
-.slider__item[data-order="2"] {
+.slider__item:nth-of-type(3) {
     background-image: url("../images/image-3.jpg");
 }
-.slider__item[data-order="3"] {
+.slider__item:nth-of-type(4) {
     background-image: url("../images/image-4.jpg");
     
 }
@@ -123,4 +123,12 @@ ul {
 }
 .arrow-left {
     left: 30px;
+}
+
+.slider__item--fade {
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
+}
+.slider__fade--in {
+    opacity: 1;
 }
