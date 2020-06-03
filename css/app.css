@@ -96,6 +96,7 @@ ul {
     display: inline-block;
     cursor: pointer;
     transition: all .5s ease-in-out;
+    margin: 5px;
 }
 
 .bullets__item.active {
